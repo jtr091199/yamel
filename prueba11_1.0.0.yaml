@@ -1,0 +1,115 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "prueba11"
+  title: "prueba11"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/prueba11"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+securityDefinitions: {}
+security: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: false
+  assembly:
+    execute:
+    - switch:
+        title: "switch"
+        case:
+        - condition: "request.verb == ('GET')"
+          execute:
+          - set-variable:
+              title: "set-variable"
+              actions:
+              - set: "message.headers.Content-Type"
+                value: "application/json"
+              version: "1.0.0"
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "GET"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "$(prueba)/students/{id}"
+        - condition: "request.verb == ('POST')"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "POST"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "$(prueba)/students"
+        - condition: "request.verb == ('PUT')"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "PUT"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "$(prueba)/students/{id}"
+        - condition: "request.verb == ('DELETE')"
+          execute:
+          - invoke:
+              title: "invoke"
+              timeout: 60
+              verb: "DELETE"
+              cache-response: "protocol"
+              cache-ttl: 900
+              stop-on-error:
+              - null
+              version: "1.0.0"
+              target-url: "$(prueba)/students/{id}"
+          - set-variable:
+              title: "set-variable"
+              actions:
+              - set: "message.headers.Content-Type"
+                value: "application/json"
+              - value: "<mensaje>estas cuchi</mensaje>"
+                add: "message.body"
+              version: "1.0.0"
+        version: "1.0.0"
+  phase: "realized"
+  properties:
+    prueba:
+      value: "http://172.16.1.210:8085"
+      description: ""
+      encoded: false
+paths:
+  /estudiantes:
+    get:
+      responses:
+        200:
+          description: "200 OK"
+    post:
+      responses:
+        200:
+          description: "200 OK"
+    delete:
+      responses:
+        200:
+          description: "200 OK"
+    put:
+      responses:
+        200:
+          description: "200 OK"
+definitions: {}
+tags: []
