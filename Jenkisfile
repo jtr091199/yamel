@@ -1,14 +1,9 @@
 node {
 stage ('Checkout'){
-
 git  'https://github.com/jtr091199/yamel'
 }
-stage('Compile-Package'){
-def mvnHome = tool name: 'maven-3', type: 'maven'
-sh "${mvnHome}/bin/mvn package"
-}
 stage ('Build'){
-sh 'docker build -t belennae/apipipeline'
+sh 'docker build -t jtr091199/yamel'
 }
 stage ('Test'){
 sh 'docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app maven:3.3.9-jdk-8-alpine mvn test'
