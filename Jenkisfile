@@ -1,0 +1,14 @@
+node {
+stage ('Checkout'){
+git  'https://github.com/jtr091199/yamel'
+}
+stage('Compile-Package'){
+sh 'mvn package'
+}
+stage ('Build'){
+sh 'docker build -t belennae/apipipeline'
+}
+stage ('Test'){
+sh 'docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app maven:3.3.9-jdk-8-alpine mvn test'
+}
+}
